@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Demo1.Domain.Entity
+{
+    public class Department
+    {
+        public  string Name { get; set; }
+
+        // relation
+        public List<Product> products { get; set; }
+
+    }
+}
