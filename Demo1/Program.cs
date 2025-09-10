@@ -1,4 +1,9 @@
 
+using Demo1.Api.Common;
+using Demo1.Application.Mappings;
+using Demo1.Infrastructure.Persistence.Configurations;
+using System.Reflection;
+
 namespace Demo1
 {
     public class Program
@@ -8,12 +13,14 @@ namespace Demo1
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("conn")
+                );
+            
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,7 +29,7 @@ namespace Demo1
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

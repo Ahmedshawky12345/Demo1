@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Demo1.Domain.Entity
 {
-    public class Department:BaseEntity
+    public class Category:BaseEntity
     {
         public  string Name { get; set; }
 

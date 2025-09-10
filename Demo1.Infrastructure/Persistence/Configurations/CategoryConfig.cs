@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Demo1.Infrastructure.Persistence.Configurations
 {
-    public class DepartmentConfig : IEntityTypeConfiguration<Department>
+    public class CategoryConfig : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Department> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             // Department Constratin 
-            builder.ToTable("Departments");
+            builder.ToTable("Catgories");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(maxLength: 100);
 
