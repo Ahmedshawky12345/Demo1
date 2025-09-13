@@ -14,13 +14,17 @@
             Data = data;
             Errors = errors;
         }
-        public static ApiResponse<T> SuccessResponse(bool success,T data,string message="")
+        public static ApiResponse<T> SuccessResponse(bool success,T data,string message= "Request completed successfully")
         {
           return new ApiResponse<T>(true,message,data);
         }
-        public static ApiResponse<T> FailResponse(List<string>errors,string message ="")
+        public static ApiResponse<T> FailResponse(List<string>errors,string message = "Something went wrong")
         {
             return new ApiResponse<T>(false, message, default, errors);
+        }
+        public static ApiResponse<T> SuccessResponse(string message = "Request completed successfully")
+        {
+            return new ApiResponse<T>(true, message, default);
         }
     }
 }

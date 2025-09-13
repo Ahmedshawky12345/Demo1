@@ -1,4 +1,5 @@
 ﻿using Demo1.Application.Interfaces.IRepository;
+using Demo1.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Demo1.Infrastructure.Implementation.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly AppDbContext context;
         private readonly DbSet<T> DbSet;
@@ -36,14 +37,14 @@ namespace Demo1.Infrastructure.Implementation.Repositories
             return await DbSet.Where(predicate).ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public  IQueryable<T> GetAllAsync()
         {
-            return await DbSet.ToListAsync();
+            return  DbSet.Where(x=>!x.IsDeleted).AsQueryable();
         }
 
-        public async Task<T> GetById(int Id)
+        public async Task<T> GetById(int Id) 
         {
-            return await DbSet.FindAsync(Id);
+            return await DbSet.FirstOrDefaultAsync(x=>x.Id==Id && !x.IsDeleted);
         }
 
         public void Update(T Entity)

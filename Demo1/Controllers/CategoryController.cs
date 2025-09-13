@@ -5,6 +5,8 @@ using Demo1.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Demo1.Api.Controllers
 {
@@ -31,6 +33,48 @@ namespace Demo1.Api.Controllers
                 return Ok(ApiResponse<CategoryDto>.SuccessResponse(true,categoryDto, "Category Added successfully "));
             }
             return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "error"}));
+
+        }
+        [HttpGet("GetCategory")]
+        public async Task<IActionResult> GetCategory(int pagenumber=1,int pagesize=3)
+        {
+            var data=  unitOfWork.Categories.GetAllAsync();
+            int totalcount = await data.CountAsync();
+            var quary = await data.OrderBy(x => x.Id).Skip((pagenumber - 1) * pagesize).Take(pagesize).ToListAsync();
+            var result = mapper.Map<List<CategoryDto>>(quary);
+            var pagningdata= new PagedResult<CategoryDto>(result,pagesize,pagenumber,totalcount);
+
+            return Ok(ApiResponse<PagedResult<CategoryDto>>.SuccessResponse(true, pagningdata));
+
+        }
+        [HttpPut("UpdateCategory")]
+        public async Task<IActionResult> UpdateCategory(CategoryDto categoryDto)
+        {
+            var category = mapper.Map<Category>(categoryDto);
+            unitOfWork.Categories.Update(category);
+            int rowsAffected = await unitOfWork.CompleteAsync();
+            if (rowsAffected > 0)
+            {
+                return Ok(ApiResponse<string>.SuccessResponse("category updated succfuly"));
+            }
+            return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "Category Updated falid " }));
+
+        }
+        [HttpDelete("DeleteCategory/{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await unitOfWork.Categories.GetById(id);
+            if(category == null)
+            {
+                return NotFound(ApiResponse<List<string>>.FailResponse(new List<string> { "Category not found" }, "Delete Failed"));
+            }
+             unitOfWork.Categories.Delete(category);
+            int rowsAffected = await unitOfWork.CompleteAsync();
+            if (rowsAffected > 0)
+            {
+                return Ok(ApiResponse<string>.SuccessResponse("Category deleted succesfully"));
+            }
+            return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "Failed to delete category" }));
 
         }
 

@@ -33,6 +33,7 @@ namespace Demo1.Infrastructure
                     case EntityState.Deleted:
                         entery.State = EntityState.Modified;
                         entery.Entity.DeletedAt = DateTime.UtcNow;
+                        entery.Entity.IsDeleted = true;
                         break; 
 
 
