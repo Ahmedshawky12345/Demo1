@@ -22,8 +22,8 @@ namespace Demo1.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Price).HasPrecision(18, 2).IsRequired();
 
             // product Relationships
-            builder.HasOne(x=>x.department).WithMany(x=>x.products).
-                HasForeignKey(x=>x.department_id).OnDelete(deleteBehavior: DeleteBehavior.Restrict);
+            builder.HasOne(x=>x.Category).WithMany(x=>x.products).
+                HasForeignKey(x=>x.CategoryId).OnDelete(deleteBehavior: DeleteBehavior.Restrict);
 
             
 

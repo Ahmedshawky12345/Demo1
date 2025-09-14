@@ -50,8 +50,15 @@ namespace Demo1.Api.Controllers
         [HttpPut("UpdateCategory")]
         public async Task<IActionResult> UpdateCategory(CategoryDto categoryDto)
         {
-            var category = mapper.Map<Category>(categoryDto);
-            unitOfWork.Categories.Update(category);
+
+            var existingCategory = await unitOfWork.Categories.GetById(categoryDto.Id);
+            if (existingCategory == null)
+            {
+                return NotFound(ApiResponse<string>.FailResponse(new List<string> { "Category not found" }));
+            }
+
+            mapper.Map(categoryDto, existingCategory);
+            unitOfWork.Categories.Update(existingCategory);
             int rowsAffected = await unitOfWork.CompleteAsync();
             if (rowsAffected > 0)
             {
@@ -77,6 +84,7 @@ namespace Demo1.Api.Controllers
             return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "Failed to delete category" }));
 
         }
+      
 
     }
 }

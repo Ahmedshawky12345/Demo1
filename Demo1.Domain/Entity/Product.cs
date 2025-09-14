@@ -10,8 +10,8 @@ namespace Demo1.Domain.Entity
         public Decimal Price { get; set; }
 
         // relation 
-        public Category? department { get; set; }
-        public  int department_id { get; set; }
+        public Category? Category { get; set; }
+        public  int CategoryId { get; set; }
 
     }
 }

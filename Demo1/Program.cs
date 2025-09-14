@@ -2,6 +2,7 @@
 using Demo1.Api.Common;
 using Demo1.Application.Mappings;
 using Demo1.Infrastructure.Persistence.Configurations;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Reflection;
 
 namespace Demo1
@@ -15,8 +16,7 @@ namespace Demo1
             // Add services to the container.
             builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("conn")
                 );
-            
-
+       
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
