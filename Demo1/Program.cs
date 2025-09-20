@@ -4,6 +4,7 @@ using Demo1.Application.Mappings;
 using Demo1.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Reflection;
+using System.Threading.RateLimiting;
 
 namespace Demo1
 {
@@ -21,6 +22,18 @@ namespace Demo1
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            // Configure Rate Limiting
+            builder.Services.AddRateLimiter(options =>
+            {
+                // Limit: 5 requests ??? 10 ????? ??? IP
+                options.AddFixedWindowLimiter("fixed", opt =>
+                {
+                    opt.Window = TimeSpan.FromSeconds(20);   // ??????? ???????
+                    opt.PermitLimit = 5;                     // ??? requests ??????? ????
+                    opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                    opt.QueueLimit = 0;                      // ???? ??? requests ?????? ?????? ?? ???????
+                });
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,9 +46,9 @@ namespace Demo1
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseRateLimiter();   
 
-
-            app.MapControllers();
+            app.MapControllers().RequireRateLimiting("fixed");
 
             app.Run();
         }
