@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Demo1.Application.Mappings; // مكان وجود الـ MappingProfile
+using Demo1.Application.Mappings; 
 namespace Demo1.Infrastructure.Persistence.Configurations
 
 {
@@ -36,9 +36,8 @@ namespace Demo1.Infrastructure.Persistence.Configurations
                 cfg.AddProfile<MappingProfile>();
             });
 
-            // Add autoMapper
-
-
+            
+            
 
 
 

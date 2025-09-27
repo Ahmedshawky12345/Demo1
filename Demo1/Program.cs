@@ -34,6 +34,17 @@ namespace Demo1
                     opt.QueueLimit = 0;                      // ???? ??? requests ?????? ?????? ?? ???????
                 });
             });
+            // add CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200") // Angular app
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,7 +55,7 @@ namespace Demo1
             }
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAngular");
             app.UseAuthorization();
             app.UseRateLimiter();   
 

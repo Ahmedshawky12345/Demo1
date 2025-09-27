@@ -1,0 +1,46 @@
+<!-- صفحة Onboarding -->
+<div class="onboarding-container" *ngIf="showOnboarding">
+  <div class="content">
+    <h1 class="logo">BookVerse</h1>
+    
+    <div class="slides-container">
+      <div class="slide active">
+        <h2>اكتشف عالمًا من المعرفة</h2>
+        <p>مكتبة شاملة تضم آلاف الكتب في مختلف المجالات والمواضيع</p>
+      </div>
+    </div>
+
+    <button class="cta-button" (click)="skipOnboarding()">
+      ابدأ الاستكشاف
+    </button>
+  </div>
+</div>
+
+<!-- الصفحة الرئيسية -->
+<div class="bookverse-container" *ngIf="!showOnboarding">
+  <!-- نفس الكود السابق -->
+  <header class="header">
+    <h1 class="logo">BookVerse</h1>
+  </header>
+
+  <main class="main-content">
+    <section class="hero-section">
+      <h2 class="hero-title">اكتشف عالمًا من المعرفة</h2>
+      <p class="hero-description">مكتبة شاملة تضم آلاف الكتب في مختلف المجالات والمواضيع</p>
+    </section>
+
+    <div class="separator"></div>
+
+    <section class="features-section">
+      <div class="feature">
+        <h3 class="feature-title">بحث متقدم</h3>
+        <p class="feature-description">تقنية بحث متقدمة تساعدك في العثور على الكتاب المثالي بسرعة</p>
+      </div>
+
+      <div class="feature">
+        <h3 class="feature-title">اقرأ بطريقة أفضل</h3>
+        <p class="feature-description">تجربة قراءة مريحة ومخصصة تناسب احتياجاتك</p>
+      </div>
+    </section>
+  </main>
+</div>
