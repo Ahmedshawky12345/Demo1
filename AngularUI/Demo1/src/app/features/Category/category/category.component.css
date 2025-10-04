@@ -1,0 +1,78 @@
+.categories-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 60px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.category-card {
+  position: relative;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-content {
+  color: white;
+  text-align: center;
+}
+
+.category-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Category Backgrounds */
+.fiction { background: linear-gradient(135deg, #ff6b6b, #ffd700); }
+.science { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+.history { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+.technology { background: linear-gradient(135deg, #a166ab, #5073b8); }
+.philosophy { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.cooking { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  .category-card {
+    height: 160px;
+  }
+  .category-icon {
+    font-size: 2rem;
+  }
+}
