@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo1.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250830170737_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251019000224_Fix_ProductConstraint")]
+    partial class Fix_ProductConstraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Demo1.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Demo1.Domain.Entity.Department", b =>
+            modelBuilder.Entity("Demo1.Domain.Entity.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,6 +34,9 @@ namespace Demo1.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -49,7 +52,7 @@ namespace Demo1.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Catgories", (string)null);
                 });
 
             modelBuilder.Entity("Demo1.Domain.Entity.Product", b =>
@@ -60,56 +63,59 @@ namespace Demo1.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Descrption")
-                        .IsRequired()
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("department_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("department_id");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Product_Name_MinLength", "LEN([Name]) >= 5");
+                            t.HasCheckConstraint("CK_Product_Title_MinLength", "LEN([Title]) >= 5");
                         });
                 });
 
             modelBuilder.Entity("Demo1.Domain.Entity.Product", b =>
                 {
-                    b.HasOne("Demo1.Domain.Entity.Department", "department")
+                    b.HasOne("Demo1.Domain.Entity.Category", "Category")
                         .WithMany("products")
-                        .HasForeignKey("department_id")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("department");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Demo1.Domain.Entity.Department", b =>
+            modelBuilder.Entity("Demo1.Domain.Entity.Category", b =>
                 {
                     b.Navigation("products");
                 });

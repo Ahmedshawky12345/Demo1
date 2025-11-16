@@ -54,7 +54,9 @@ namespace Demo1
                 app.UseSwaggerUI();
             }
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+            
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCors("AllowAngular");
             app.UseAuthorization();
             app.UseRateLimiter();   

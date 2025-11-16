@@ -47,4 +47,12 @@
       </div>
     </div>
   </section>
+
+  <!-- Scroll to Top Button -->
+  <button *ngIf="showScrollButton" 
+          class="scroll-to-top-btn"
+          (click)="scrollToTop()"
+          title="Back to Top">
+    ↑
+  </button>
 </div>

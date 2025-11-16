@@ -4,10 +4,11 @@ namespace Demo1.Domain.Entity
 {
     public class Product:BaseEntity
     {
-        public string Name { get; set; }
-        public string Descrption { get; set; }
-        public int Quantity { get; set; }
-        public Decimal Price { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public decimal Price { get; set; }
+        public string? ImageUrl { get; set; }
+        
 
         // relation 
         public Category? Category { get; set; }

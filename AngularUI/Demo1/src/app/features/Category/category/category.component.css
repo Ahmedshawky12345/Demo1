@@ -1,78 +1,119 @@
 .categories-page {
+  padding: 2rem 0;
+  background: #f8f9fa;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.categories-section {
+  width: 100%;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px;
-  text-align: center;
+  padding: 0 1rem;
 }
 
 .page-title {
-  font-size: 3rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 60px;
+  margin-top: 80px;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: #333;
+  font-weight: bold;
 }
 
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .category-card {
-  position: relative;
-  height: 200px;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
 }
 
 .category-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
 }
 
 .category-content {
-  color: white;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .category-icon {
-  font-size: 3rem;
-  margin-bottom: 10px;
+  font-size: 3.5rem;
+  height: 80px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  background: #667eea;
+  color: white;
+  transform: scale(1.1);
 }
 
 .category-title {
   font-size: 1.5rem;
+  color: #333;
+  margin: 0;
   font-weight: 600;
 }
 
-/* Category Backgrounds */
-.fiction { background: linear-gradient(135deg, #ff6b6b, #ffd700); }
-.science { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
-.history { background: linear-gradient(135deg, #45b7d1, #96c93d); }
-.technology { background: linear-gradient(135deg, #a166ab, #5073b8); }
-.philosophy { background: linear-gradient(135deg, #f093fb, #f5576c); }
-.cooking { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+/* Scroll to Top Button */
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #667eea;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.scroll-to-top-btn:hover {
+  background: #5a6fd8;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .page-title {
-    font-size: 2rem;
-  }
-  .category-card {
-    height: 160px;
-  }
-  .category-icon {
-    font-size: 2rem;
+  .scroll-to-top-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
   }
 }

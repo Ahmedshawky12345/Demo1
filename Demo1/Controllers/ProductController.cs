@@ -2,6 +2,7 @@
 using Demo1.Api.Common;
 using Demo1.Application.DTO;
 using Demo1.Application.DTOs;
+using Demo1.Application.Interfaces.Iservices;
 using Demo1.Application.Interfaces.IUnitOfWork;
 using Demo1.Domain.Entity;
 using Microsoft.AspNetCore.Http;
@@ -17,23 +18,46 @@ namespace Demo1.Api.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IimageService iimageService;
 
-        public ProductController(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductController(IUnitOfWork unitOfWork, IMapper mapper,IimageService iimageService)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.iimageService = iimageService;
         }
         [HttpPost("CreateProduct")]
-        public async Task<IActionResult> CreateProduct(ProductDto productDto)
+        public async Task<IActionResult> CreateProduct(ProductCreateDto productCreateDto)
         {
-            var product = mapper.Map<Product>(productDto);
-            await unitOfWork.Products.AddAsync(product);
-            int result = await unitOfWork.CompleteAsync();
-            if (result > 0)
+            string? ImageUrl = null;
+            if (productCreateDto.file != null)
             {
-                return Ok(ApiResponse<ProductDto>.SuccessResponse(true, productDto, "Category Added successfully "));
+                 ImageUrl = await iimageService.SaveFileAsync(productCreateDto.file, "books");
             }
-            return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "error" }));
+                
+            var product = mapper.Map<Product>(productCreateDto);
+            product.ImageUrl = ImageUrl;
+            try
+            {
+                await unitOfWork.Products.AddAsync(product);
+                int result = await unitOfWork.CompleteAsync();
+
+                if (result > 0)
+                {
+                    var productDto = mapper.Map<ProductDto>(product);
+                    return Ok(ApiResponse<ProductDto>.SuccessResponse(true, productDto, "Product Added successfully"));
+                }
+
+                return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "Error while saving product" }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message
+                });
+            }
         }
         [HttpGet("GetProduct")]
         public async Task<IActionResult> GetProduct(int pagenumber=1,int pagesize=3)
@@ -86,6 +110,24 @@ namespace Demo1.Api.Controllers
             }
             return BadRequest(ApiResponse<List<string>>.FailResponse(new List<string> { "Failed to delete product" }));
 
+        }
+        [HttpPost("image")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            var path = await iimageService.SaveFileAsync(file, "books");
+            return Ok(new { imageUrl = path });
+        }
+        [HttpGet("GetProductByCategoryID")]
+        public async Task<IActionResult> GetProductByCategoryID(int CategoryID)
+        {
+            var products = await unitOfWork.Products.FindAsync(p => p.CategoryId == CategoryID && !p.IsDeleted);
+            var mappedProducts = mapper.Map<List<ProductDto>>(products);
+            if (mappedProducts.Any())
+            {
+                return Ok(ApiResponse<List<ProductDto>>.SuccessResponse(true, mappedProducts, "Products fetched successfully"));
+            }
+
+            return NotFound(ApiResponse<List<string>>.FailResponse(new List<string> { "No products found for this category" }));
         }
 
     }

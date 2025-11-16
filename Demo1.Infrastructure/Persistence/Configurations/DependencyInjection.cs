@@ -14,7 +14,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Demo1.Application.Mappings; 
+using Demo1.Application.Mappings;
+using Demo1.Application.Interfaces.Iservices;
+using Demo1.Infrastructure.Implementation.Services;
 namespace Demo1.Infrastructure.Persistence.Configurations
 
 {
@@ -35,6 +37,9 @@ namespace Demo1.Infrastructure.Persistence.Configurations
             {
                 cfg.AddProfile<MappingProfile>();
             });
+
+            // Add Image service 
+            Services.AddScoped<IimageService, Imageservice>();
 
             
             

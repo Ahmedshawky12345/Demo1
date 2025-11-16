@@ -1,21 +1,20 @@
-<nav class="navbar">
+<nav class="navbar" [class.scrolled]="isScrolled">
   <div class="nav-container">
-    <!-- اللوجو -->
-    <div class="logo">
+    <div class="logo" (click)="scrollToSection('home-section')">
       <span class="logo-icon">📚</span>
       <span class="logo-text">BookVerse</span>
     </div>
 
-    <!-- عناصر التنقل -->
     <div class="nav-items" [class.active]="isMenuOpen">
       <a *ngFor="let item of navItems" 
-         [routerLink]="item.link" 
-         class="nav-item">
+         [href]="item.link"
+         class="nav-item"
+         (click)="onNavItemClick(item, $event)">
+        <span class="nav-icon">{{ item.icon }}</span>
         <span class="nav-text">{{ item.name }}</span>
       </a>
     </div>
 
-    <!-- زر القائمة للموبايل -->
     <button class="menu-toggle" (click)="toggleMenu()">
       <span></span>
       <span></span>

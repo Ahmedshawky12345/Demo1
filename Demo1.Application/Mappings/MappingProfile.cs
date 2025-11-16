@@ -16,8 +16,11 @@ namespace Demo1.Application.Mappings
         {
             //map product
             CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, ProductCreateDto>().ReverseMap();
+
             //map category
             CreateMap<Category, CategoryDto>().ReverseMap();
+            
         }
     }
 }
